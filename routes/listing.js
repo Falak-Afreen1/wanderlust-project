@@ -37,6 +37,13 @@ router.get("/search", wrapAsync (async (req,res) => {
   res.render("listings/index", { allListings, query });
 }));
 
+//CATEGORY ROUTE
+router.get("/category/:category", wrapAsync(async (req,res) => {
+    const {category} = req.params;
+    const listings = await Listing.find({category});
+    res.render("listongs/index", {listings, category});
+}));
+
 //NEW ROUTE
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
