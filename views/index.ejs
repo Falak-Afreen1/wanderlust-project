@@ -34,10 +34,16 @@
 }
 </style>
 
+<div class="container mt-3 mb-2">
+    <% if(category) { %>
+        <h3>Listings in "<%= category %>"</h3>
+    <% } else { %>
+        <h3>All Listings</h3>
+    <% } %>
+</div>
 
 
-
-   <div id="filters">
+  <div id="filters">
     <a href="/listings/category/Trending" class="filter">
      <div> <i class="fa-solid fa-fire"></i></div>
      <p> Trending</p>

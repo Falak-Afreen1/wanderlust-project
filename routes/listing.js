@@ -18,6 +18,10 @@ router.route("/")
         wrapAsync(listingController.createListing)
     );
 
+    //NEW ROUTE
+router.get("/new", isLoggedIn, listingController.renderNewForm);
+
+
 //search route
 router.get("/search", wrapAsync (async (req,res) => {
     const query = req.query.q;
@@ -28,26 +32,37 @@ router.get("/search", wrapAsync (async (req,res) => {
     }
     const allListings = await Listing.find({
         $or: [
-            {title: {$regex:query, $options: "i"}},
-         {location: {$regrex:query, $option:"i"}},
+            {title: {$regex: query, $options: "i"}},
+             {location: {$regex: query, $options:"i"}},
               { country: { $regex: query, $options: "i" } },
         ]
     });
     
-  res.render("listings/index", { allListings, query });
+  res.render("index", { allListings, query });
+}));
+
+
+//CATEGORY ROUTE
+router.get("/category/:category", wrapAsync(async (req,res) => {
+    const {category} = req.params;
+    const allListings = await Listing.find({category});
+    res.render("listings/index", { allListings, category});
 }));
 
 
 
-//NEW ROUTE
-router.get("/new", isLoggedIn, listingController.renderNewForm);
+    
+//Edit Route
+router.get("/:id/edit", isLoggedIn, isOwner,
+    wrapAsync(listingController.renderEditForm));
 
+    
     router.route("/:id")
     .get( wrapAsync(listingController.showListing))
     .put(
     isLoggedIn,
     isOwner,
-    upload.single('image'),
+    upload.single('listing[image]'),
     validateListing,
     wrapAsync(listingController.updateListing)
     )
@@ -55,33 +70,6 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
     isLoggedIn,
     isOwner,
     wrapAsync(listingController.destroyListing));
-
-//CATEGORY ROUTE
-router.get("/category/:category", wrapAsync(async (req,res) => {
-    const {category} = req.params;
-    const listings = await Listing.find({category});
-    res.render("listings/index", {listings, category});
-}));
-
-router.route("/:id")
-    .get(wrapAsync(listingController.showListing))
-    .put(
-        isLoggedIn,
-        isOwner,
-        upload.single('listing[image]'),
-        validateListing,
-        wrapAsync(listingController.updateListing)
-    )
-    .delete(
-        isLoggedIn,
-        isOwner,
-        wrapAsync(listingController.destroyListing)
-    );
-    
-//Edit Route
-router.get("/:id/edit", isLoggedIn, isOwner,
-    wrapAsync(listingController.renderEditForm));
-
 
 
 
