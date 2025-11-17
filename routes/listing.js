@@ -37,12 +37,7 @@ router.get("/search", wrapAsync (async (req,res) => {
   res.render("listings/index", { allListings, query });
 }));
 
-//CATEGORY ROUTE
-router.get("/category/:category", wrapAsync(async (req,res) => {
-    const {category} = req.params;
-    const listings = await Listing.find({category});
-    res.render("listongs/index", {listings, category});
-}));
+
 
 //NEW ROUTE
 router.get("/new", isLoggedIn, listingController.renderNewForm);
@@ -61,7 +56,28 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
     isOwner,
     wrapAsync(listingController.destroyListing));
 
+//CATEGORY ROUTE
+router.get("/category/:category", wrapAsync(async (req,res) => {
+    const {category} = req.params;
+    const listings = await Listing.find({category});
+    res.render("listings/index", {listings, category});
+}));
 
+router.route("/:id")
+    .get(wrapAsync(listingController.showListing))
+    .put(
+        isLoggedIn,
+        isOwner,
+        upload.single('listing[image]'),
+        validateListing,
+        wrapAsync(listingController.updateListing)
+    )
+    .delete(
+        isLoggedIn,
+        isOwner,
+        wrapAsync(listingController.destroyListing)
+    );
+    
 //Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner,
     wrapAsync(listingController.renderEditForm));
