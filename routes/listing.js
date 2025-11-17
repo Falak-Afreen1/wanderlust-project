@@ -38,7 +38,7 @@ router.get("/search", wrapAsync (async (req,res) => {
         ]
     });
     
-  res.render("index", { allListings, query });
+  res.render("listings/index", { allListings, query });
 }));
 
 
@@ -56,7 +56,7 @@ router.get("/category/:category", wrapAsync(async (req,res) => {
 router.get("/:id/edit", isLoggedIn, isOwner,
     wrapAsync(listingController.renderEditForm));
 
-    
+
     router.route("/:id")
     .get( wrapAsync(listingController.showListing))
     .put(
