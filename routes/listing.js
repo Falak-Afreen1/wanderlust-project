@@ -45,13 +45,11 @@ router.get("/search", wrapAsync (async (req,res) => {
 //CATEGORY ROUTE
 router.get("/category/:category", wrapAsync(async (req,res) => {
     const {category} = req.params;
-    const allListings = await Listing.find({category});
-    res.render("listings/index", { allListings, category});
+    const listings = await Listing.find({category: category});
+    res.render("listings/index", { allListings:listings, category});
 }));
 
 
-
-    
 //Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner,
     wrapAsync(listingController.renderEditForm));

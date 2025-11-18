@@ -109,7 +109,40 @@ text-align: center;
 /* show page */
 .show-img{
     height: 30vh;
+    width: 420px;
+    object-fit: cover;
+    border-radius: 20px;
 }
+.show-title{
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.show-description{
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+.show-price{
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 15px;
+}
+.show-location {
+  color: #6b6b6b;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+.review-card {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
 .btns{
     display: flex;
     
@@ -117,4 +150,18 @@ text-align: center;
 .show-card{
     padding-left:0 ;
     padding-right: 0;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0,08);
+}
+
+
+
+/* category */
+.a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+a:hover {
+  opacity: 0.8;
 }
